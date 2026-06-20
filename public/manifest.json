@@ -1,0 +1,32 @@
+{
+  "name": "FlowSave — 구독·고정비 관리",
+  "short_name": "FlowSave",
+  "description": "구독 관리, 가족 공유, 결제 알림, 월간 리포트까지",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f4f5",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
+  "lang": "ko",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "구독 추가",
+      "url": "/?tab=subscriptions",
+      "description": "새 구독 등록"
+    },
+    {
+      "name": "리포트",
+      "url": "/?tab=reports",
+      "description": "월간 리포트 보기"
+    }
+  ]
+}
