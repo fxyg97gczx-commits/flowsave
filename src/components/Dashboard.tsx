@@ -47,6 +47,8 @@ export function Dashboard() {
     if (tab && valid.includes(tab as (typeof valid)[number])) {
       setActiveTab(tab as (typeof valid)[number]);
       window.history.replaceState({}, "", window.location.pathname);
+    } else {
+      setActiveTab("home");
     }
   }, [hydrated, setActiveTab]);
 

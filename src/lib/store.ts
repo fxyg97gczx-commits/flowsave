@@ -382,7 +382,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: "flowsave-storage-v2",
-      version: 7,
+      version: 8,
       migrate: (persisted: unknown, _version: number) => {
         const state = persisted as Record<string, unknown>;
         if (!state.settings || typeof state.settings !== "object") {
@@ -402,7 +402,7 @@ export const useAppStore = create<AppState>()(
         if (!state.familyMembers) state.familyMembers = [];
         if (!state.notifications) state.notifications = [];
         if (!state.monthlyReports) state.monthlyReports = [];
-        if (!state.activeTab) state.activeTab = "home";
+        state.activeTab = "home";
         return state as unknown as AppState;
       },
       partialize: (state) => ({
@@ -412,7 +412,6 @@ export const useAppStore = create<AppState>()(
         monthlyReports: state.monthlyReports,
         settings: state.settings,
         hasOnboarded: state.hasOnboarded,
-        activeTab: state.activeTab,
         tutorial: state.tutorial,
       }),
     }

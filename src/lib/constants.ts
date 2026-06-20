@@ -3,7 +3,7 @@ import type { BillingCycle, Category, Currency } from "./types";
 export const FREE_TIER_LIMIT = 5;
 /** Pro 기능 공개 여부 — 추후 true로 전환 */
 export const PRO_AVAILABLE = false;
-export const APP_VERSION = "2.5.3";
+export const APP_VERSION = "2.5.4";
 
 /** 클라이언트 폴백 (실제 값은 /api/bug-report/config 에서 로드) */
 export const BUG_REPORT_EMAIL =
