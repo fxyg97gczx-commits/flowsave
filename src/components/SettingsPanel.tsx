@@ -266,7 +266,11 @@ export function SettingsPanel() {
         </p>
       </CollapsibleSection>
 
-      <CollapsibleSection title="버그 신고 · 피드백" icon={<Bug className="h-4 w-4 text-violet-500" />}>
+      <CollapsibleSection
+        title="버그 신고 · 피드백"
+        icon={<Bug className="h-4 w-4 text-violet-500" />}
+        defaultOpen
+      >
         <BugReportPanel />
       </CollapsibleSection>
     </div>

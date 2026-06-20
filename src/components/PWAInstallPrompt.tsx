@@ -11,7 +11,7 @@ export function PWAInstallPrompt() {
   if (!canInstall || settings.installPromptDismissed) return null;
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 z-30 mx-auto max-w-lg animate-slide-up sm:bottom-6 sm:left-auto sm:right-6 sm:max-w-sm">
+    <div className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] left-4 right-4 z-50 mx-auto max-w-lg animate-slide-up sm:bottom-6 sm:left-auto sm:right-4 sm:max-w-sm">
       <div className="flex items-start gap-3 rounded-2xl border border-blue-200 bg-white p-4 shadow-xl dark:border-blue-800 dark:bg-zinc-900">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-950/50">
           <Download className="h-5 w-5 text-blue-600" />

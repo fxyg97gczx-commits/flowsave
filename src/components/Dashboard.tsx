@@ -127,7 +127,7 @@ export function Dashboard() {
     <div className="min-h-screen gradient-mesh">
       <Header onOpenNotifications={() => setNotifOpen(true)} />
 
-      <main className="mx-auto max-w-6xl px-4 py-6 pb-safe sm:px-6">
+      <main className="mx-auto max-w-6xl px-4 py-6 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] sm:px-6">
         {limitMessage && (
           <div className="mb-4 flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
             <span>{limitMessage}</span>
@@ -155,7 +155,7 @@ export function Dashboard() {
       </main>
 
       {(activeTab === "home" || activeTab === "subscriptions") && (
-        <div className="fixed bottom-20 right-4 z-30 flex flex-col gap-2 sm:bottom-6">
+        <div className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] right-4 z-30 flex flex-col gap-2 sm:bottom-6">
           <button
             onClick={() => setParseOpen(true)}
             className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-200 bg-white text-emerald-600 shadow-lg dark:border-emerald-800 dark:bg-zinc-900"

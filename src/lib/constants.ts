@@ -3,10 +3,11 @@ import type { BillingCycle, Category, Currency } from "./types";
 export const FREE_TIER_LIMIT = 5;
 /** Pro 기능 공개 여부 — 추후 true로 전환 */
 export const PRO_AVAILABLE = false;
-export const APP_VERSION = "2.5.1";
+export const APP_VERSION = "2.5.3";
 
-/** 버그 리포트 수신 이메일 (선택) */
-export const BUG_REPORT_EMAIL = process.env.NEXT_PUBLIC_BUG_REPORT_EMAIL ?? "";
+/** 클라이언트 폴백 (실제 값은 /api/bug-report/config 에서 로드) */
+export const BUG_REPORT_EMAIL =
+  process.env.NEXT_PUBLIC_BUG_REPORT_EMAIL?.trim() || "q8a9z0@naver.com";
 /** GitHub Issues URL (선택) */
 export const BUG_REPORT_GITHUB_URL = process.env.NEXT_PUBLIC_BUG_REPORT_GITHUB_URL ?? "";
 

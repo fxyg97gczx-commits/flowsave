@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Copy, Mail, ExternalLink, Check } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import {
@@ -14,6 +14,8 @@ import {
 import { BUG_REPORT_EMAIL, BUG_REPORT_GITHUB_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
+const DEFAULT_REPORT_EMAIL = "q8a9z0@naver.com";
+
 const CATEGORIES: { id: BugReportCategory; label: string }[] = [
   { id: "bug", label: "버그" },
   { id: "feature", label: "기능 제안" },
@@ -25,7 +27,21 @@ export function BugReportPanel() {
   const [category, setCategory] = useState<BugReportCategory>("bug");
   const [description, setDescription] = useState("");
   const [steps, setSteps] = useState("");
+  const [reportEmail, setReportEmail] = useState(
+    BUG_REPORT_EMAIL || DEFAULT_REPORT_EMAIL
+  );
+  const [githubUrl, setGithubUrl] = useState(BUG_REPORT_GITHUB_URL);
   const [message, setMessage] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/bug-report/config")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.email) setReportEmail(data.email);
+        if (data?.githubUrl) setGithubUrl(data.githubUrl);
+      })
+      .catch(() => {});
+  }, []);
 
   const showMessage = (type: "ok" | "err", text: string) => {
     setMessage({ type, text });
@@ -56,13 +72,13 @@ export function BugReportPanel() {
 
   const handleEmail = () => {
     if (!validate()) return;
-    if (!BUG_REPORT_EMAIL) {
+    if (!reportEmail) {
       showMessage("err", "이메일 주소가 설정되지 않았습니다. 복사 기능을 이용해 주세요.");
       return;
     }
     const context = collectBugReportContext(subscriptionCount);
     const mailto = buildBugReportMailto(
-      BUG_REPORT_EMAIL,
+      reportEmail,
       { category, description, steps },
       context
     );
@@ -121,30 +137,32 @@ export function BugReportPanel() {
         />
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={handleEmail}
+          className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl gradient-brand px-2 py-2.5 text-xs font-semibold text-white sm:text-sm"
+        >
+          <Mail className="h-4 w-4 shrink-0" />
+          <span className="truncate">이메일로 보내기</span>
+        </button>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-zinc-200 py-2.5 text-sm font-medium dark:border-zinc-700"
+          className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-zinc-200 px-2 py-2.5 text-xs font-medium dark:border-zinc-700 sm:text-sm"
         >
-          <Copy className="h-4 w-4" />
-          클립보드에 복사
+          <Copy className="h-4 w-4 shrink-0" />
+          <span className="truncate">클립보드 복사</span>
         </button>
-        {BUG_REPORT_EMAIL && (
-          <button
-            type="button"
-            onClick={handleEmail}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl gradient-brand py-2.5 text-sm font-semibold text-white"
-          >
-            <Mail className="h-4 w-4" />
-            이메일로 보내기
-          </button>
-        )}
       </div>
 
-      {BUG_REPORT_GITHUB_URL && (
+      {reportEmail && (
+        <p className="text-[10px] text-zinc-400">수신: {reportEmail}</p>
+      )}
+
+      {githubUrl && (
         <a
-          href={BUG_REPORT_GITHUB_URL}
+          href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 hover:underline dark:text-emerald-400"
