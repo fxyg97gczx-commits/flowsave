@@ -403,7 +403,7 @@ export const useAppStore = create<AppState>()(
         if (!state.notifications) state.notifications = [];
         if (!state.monthlyReports) state.monthlyReports = [];
         if (!state.activeTab) state.activeTab = "home";
-        return state as AppState;
+        return state as unknown as AppState;
       },
       partialize: (state) => ({
         subscriptions: state.subscriptions,
