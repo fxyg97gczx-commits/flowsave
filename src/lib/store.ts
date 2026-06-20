@@ -18,6 +18,7 @@ import {
   FREE_TIER_LIMIT,
   SAMPLE_FAMILY,
   SAMPLE_SUBSCRIPTIONS,
+  TUTORIAL_TOTAL_STEPS,
 } from "./constants";
 import { generateId, defaultRenewalDate, toKRW } from "./utils";
 import { validateImportData } from "./ux";
@@ -287,16 +288,11 @@ export const useAppStore = create<AppState>()(
       advanceTutorial: () => {
         const { tutorial } = get();
         if (tutorial.completed) return;
-        const next = tutorial.step + 1;
-        if (next >= 3) {
-          set({ tutorial: { completed: true, step: 3 } });
-        } else {
-          set({ tutorial: { ...tutorial, step: next } });
-        }
+        set({ tutorial: { ...tutorial, step: tutorial.step + 1 } });
       },
 
       completeTutorial: () => {
-        set({ tutorial: { completed: true, step: 3 } });
+        set({ tutorial: { completed: true, step: TUTORIAL_TOTAL_STEPS } });
       },
 
       skipTutorial: () => {
@@ -365,7 +361,7 @@ export const useAppStore = create<AppState>()(
           subscriptions: samples,
           familyMembers: members,
           hasOnboarded: true,
-          tutorial: { completed: true, step: 3 },
+          tutorial: { completed: true, step: TUTORIAL_TOTAL_STEPS },
           settings: {
             ...get().settings,
             budget: { enabled: true, monthlyLimitKRW: 50000, alertEnabled: true },

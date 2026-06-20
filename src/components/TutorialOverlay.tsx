@@ -1,7 +1,8 @@
 "use client";
 
-import { Plus, LayoutDashboard, Settings, X } from "lucide-react";
+import { Plus, LayoutDashboard, Settings, Home, X } from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import { TUTORIAL_TOTAL_STEPS } from "@/lib/constants";
 
 const STEPS = [
   {
@@ -10,6 +11,7 @@ const STEPS = [
     desc: "오른쪽 아래 + 버튼을 눌러 Netflix, Spotify 등을 등록하세요. 이름·금액·날짜만 입력하면 됩니다.",
     icon: Plus,
     tab: "subscriptions" as const,
+    cta: "다음",
   },
   {
     target: "home",
@@ -17,6 +19,7 @@ const STEPS = [
     desc: "홈 화면에서 이번 달 총 지출을 한눈에 볼 수 있어요.",
     icon: LayoutDashboard,
     tab: "home" as const,
+    cta: "다음",
   },
   {
     target: "settings",
@@ -24,20 +27,35 @@ const STEPS = [
     desc: "설정에서 데이터를 백업하고, 결제 알림을 켜 두세요.",
     icon: Settings,
     tab: "settings" as const,
+    cta: "다음",
+  },
+  {
+    target: "home-start",
+    title: "준비 완료!",
+    desc: "이제 홈 화면에서 구독 비용과 다가오는 결제를 한눈에 확인할 수 있어요.",
+    icon: Home,
+    tab: "home" as const,
+    cta: "홈으로 가기",
   },
 ];
 
 export function TutorialOverlay() {
-  const { tutorial, advanceTutorial, skipTutorial, setActiveTab } = useAppStore();
+  const { tutorial, advanceTutorial, completeTutorial, skipTutorial, setActiveTab } =
+    useAppStore();
 
   if (tutorial.completed) return null;
 
   const step = STEPS[tutorial.step] ?? STEPS[0];
   const StepIcon = step.icon;
+  const isLast = tutorial.step >= STEPS.length - 1;
 
   const handleNext = () => {
     setActiveTab(step.tab);
-    advanceTutorial();
+    if (isLast) {
+      completeTutorial();
+    } else {
+      advanceTutorial();
+    }
   };
 
   return (
@@ -46,7 +64,7 @@ export function TutorialOverlay() {
       <div className="relative z-10 w-full max-w-md animate-slide-up rounded-2xl bg-white p-6 shadow-2xl dark:bg-zinc-900">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-xs font-medium text-emerald-600">
-            시작 가이드 {tutorial.step + 1} / {STEPS.length}
+            시작 가이드 {tutorial.step + 1} / {TUTORIAL_TOTAL_STEPS}
           </span>
           <button
             onClick={skipTutorial}
@@ -84,7 +102,7 @@ export function TutorialOverlay() {
             onClick={handleNext}
             className="flex-1 rounded-xl gradient-brand py-2.5 text-sm font-semibold text-white"
           >
-            {tutorial.step >= STEPS.length - 1 ? "시작하기" : "다음"}
+            {step.cta}
           </button>
         </div>
       </div>
